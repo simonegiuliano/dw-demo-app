@@ -2,29 +2,30 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   pull_request:
-    branches: [ main ] # Attiva il test anche quando qualcuno propone modifiche
+    branches: [ master ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout del codice
+      uses: actions/checkout@v3
     
-    - name: Set up JDK 1.8
+    - name: Configurazione JDK 1.8
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '8'
         cache: 'maven'
         
-    - name: Build with Maven
+    - name: Build con Maven
       run: mvn -B install --file pom.xml
       
-    - name: Upload Build Artifact # Salva il file .jar creato
+    - name: Salvataggio Artifact (JAR)
       uses: actions/upload-artifact@v3
       with:
         name: demo-app-jar
-        path: target/*.jar # Prende il file dalla cartella target
+        path: target/*.jar
